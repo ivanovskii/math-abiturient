@@ -1,0 +1,31 @@
+.ma-navbar{
+    background-color: rgb(0, 162, 255);
+}
+
+.nav-ma-link {
+    color:rgba(255,255,255,0.85);
+}
+
+.nav-ma-link:hover,
+.nav-ma-link:active {
+    color:#fff
+}
+
+.btn-ma-login {
+    font-weight:600;
+    color:#ffe484;
+    border-color:#ffe484;
+}
+
+.btn-ma-login:hover,
+.btn-ma-login:active {
+    color: #2a2730;
+    background-color: #ffe484;
+    border-color: #ffe484;
+}
+
+.btn-ma-login:focus,
+.btn-ma-login:active{
+    box-shadow:none !important;
+    outline:0px !important;
+}

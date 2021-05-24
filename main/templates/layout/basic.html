@@ -1,0 +1,37 @@
+{% load django_bootstrap5 %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title> {% block title %}math-abiturient{% endblock %} · Главная</title>
+        {% bootstrap_css %}
+        <link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}">
+    </head>
+    <body>
+        <header class="navbar ma-navbar">
+            <nav class="container">
+                <a class="navbar-brand nav-ma-link" href="/">math-abiturient</a>
+                {% if request.user.is_authenticated %}
+                    <div>
+                        <a class="btn btn-ma-login" href="#">Мой профиль</a>
+                        <a class="btn btn-ma-login" href="#">Выйти</a>
+                    </div>
+                {% else %}
+                    <div>
+                        <a class="btn btn-ma-login" href="#">Регистрация</a>
+                        <a class="btn btn-ma-login" href="#">Войти</a>
+                    </div>
+                {% endif %}
+            </nav>
+        </header>
+        <main>
+            <div class="container">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </main>
+    </body>
+</html>
