@@ -1,4 +1,6 @@
-from django.contrib.auth import forms
+from django.contrib.auth import forms, logout
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.http.response import Http404, HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.views import (
     LoginView, LogoutView, PasswordChangeView,
@@ -6,7 +8,9 @@ from django.contrib.auth.views import (
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.views.generic.edit import UpdateView, CreateView
+from django.views.generic.edit import (
+    UpdateView, CreateView, DeleteView
+)
 from django.views.generic.base import TemplateView
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -14,6 +18,8 @@ from .models import AdvUser
 from .forms import ChangeUserInfoForm, RegisterUserForm
 from django.core.signing import BadSignature
 from .utilities import signer
+from django.contrib import messages
+
 
 def index(request):
     return render(request, 'main/index.html')
@@ -81,3 +87,24 @@ class RegisterUserView(CreateView):
 
 class RegisterDoneView(TemplateView):
     template_name = 'main/register_done.html'
+
+
+class DeleteUserView(LoginRequiredMixin, DeleteView):
+    model = AdvUser
+    template_name = 'main/delete_user.html'
+    success_url = reverse_lazy('index')
+
+    def setup(self, request, *args, **kwargs):
+        self.user_id = request.user.pk
+        return super().setup(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        logout(request)
+        messages.add_message(request, messages.SUCCESS, 'Пользователь удален')
+        return super().post(request, *args, **kwargs)
+
+
+    def get_object(self, queryset=None):
+        if not queryset:
+            queryset = self.get_queryset()
+        return get_object_or_404(queryset, pk=self.user_id)

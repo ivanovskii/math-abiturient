@@ -3,7 +3,7 @@ from .views import (
     index, profile, MALoginView, MALogoutView,
     ChangeUserInfoView, MAPasswordChangeView,
     RegisterUserView, RegisterDoneView,
-    user_activate,
+    user_activate, DeleteUserView,
 )
 
 urlpatterns = [
@@ -20,5 +20,7 @@ urlpatterns = [
                                    name='register'),
     path('accounts/register/activate/<str:sign>/', user_activate,
                                    name='register_activate'),
+    path('accounts/profile/delete', DeleteUserView.as_view(),
+                                   name='profile_delete'),
     path('', index, name='index'),
 ]
