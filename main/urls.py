@@ -1,10 +1,11 @@
 from django.urls import path
-from .views import (
-    index, profile, MALoginView, MALogoutView,
-    ChangeUserInfoView, MAPasswordChangeView,
-    RegisterUserView, RegisterDoneView,
-    user_activate, DeleteUserView,
-)
+
+from .views import index, MALoginView, profile, MALogoutView, \
+    ChangeUserInfoView, MAPasswordChangeView, RegisterUserView, \
+    RegisterDoneView, user_activate, DeleteUserView, MAPasswordResetView, \
+    MAPasswordResetDoneView, MAPasswordResetConfirmView, \
+    MAPasswordResetCompleteView
+
 
 urlpatterns = [
     path('accounts/login/', MALoginView.as_view(), name='login'),
@@ -22,5 +23,15 @@ urlpatterns = [
                                    name='register_activate'),
     path('accounts/profile/delete', DeleteUserView.as_view(),
                                    name='profile_delete'),
+    path('accounts/password/reset/done/', MAPasswordResetDoneView.as_view(),
+                                          name='password_reset_done'),
+    path('accounts/password/reset/', MAPasswordResetView.as_view(),
+                                     name='password_reset'),
+    path('accounts/password/confirm/complete/',
+                                    MAPasswordResetCompleteView.as_view(),
+                                    name='password_reset_complete'),
+    path('accounts/password/confirm/<uidb64>/<token>/',
+                                    MAPasswordResetConfirmView.as_view(),
+                                    name='password_reset_confirm'),
     path('', index, name='index'),
 ]
