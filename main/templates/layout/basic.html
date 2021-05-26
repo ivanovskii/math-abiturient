@@ -21,7 +21,7 @@
                     </div>
                 {% else %}
                     <div>
-                        <a class="btn btn-ma-login" href="#">Регистрация</a>
+                        <a class="btn btn-ma-login" href="{% url 'register' %}">Регистрация</a>
                         <a class="btn btn-ma-login" href="{% url 'login' %}">Войти</a>
                     </div>
                 {% endif %}
