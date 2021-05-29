@@ -1,31 +1,92 @@
-.ma-navbar{
-    background-color: rgb(0, 162, 255);
+/* Removes the bootstrap glow from any element */
+*:hover,
+*:focus,
+*:active
+{
+  outline: none;
+  box-shadow: none !important;
+  -webkit-appearance: none;
 }
 
-.nav-ma-link {
+
+/* Navbar */
+.bg-navbar
+{
+    background-color: rgb(53, 61, 66);
+}
+
+
+/* Links */
+.nav-ma-link 
+{
     color:rgba(255,255,255,0.85);
 }
 
 .nav-ma-link:hover,
-.nav-ma-link:active {
+.nav-ma-link:active
+{
     color:#fff
 }
 
-.btn-ma-login {
+
+/* Buttons */
+.btn-ma-login
+{
     font-weight:600;
     color:#ffe484;
     border-color:#ffe484;
 }
 
 .btn-ma-login:hover,
-.btn-ma-login:active {
+.btn-ma-login:active
+{
     color: #2a2730;
     background-color: #ffe484;
     border-color: #ffe484;
 }
 
-.btn-ma-login:focus,
-.btn-ma-login:active{
-    box-shadow:none !important;
-    outline:0px !important;
+.btn-block
+{
+    width: 100%;
+}
+
+/* Forms */
+.auth-header,
+.auth-body,
+.auth-footer,
+.auth-logo
+{
+    min-width: 310px;
+    max-width: 340px;
+    margin: 0 auto;
+}
+
+.auth-logo
+{
+    margin: 45px auto;
+    text-align: center;
+}
+
+.auth-header
+{
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.auth-body
+{
+    border-radius: 10px;
+    padding: 20px 25px;
+    border: 1px solid rgba(0, 0, 0, 0.055);
+    background-color: rgba(0, 26, 255, 0.041);
+}
+
+
+.auth-footer
+{
+    text-align: center;
+    margin-top: 35px;
+    padding: 15px 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
 }

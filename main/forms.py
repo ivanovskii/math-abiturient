@@ -3,6 +3,23 @@ from .models import AdvUser
 from .apps import user_registered
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import AuthenticationForm
+from django.utils.translation import gettext_lazy
+
+
+class LoginUserForm(AuthenticationForm):
+    error_messages = {
+        'invalid_login': gettext_lazy(
+            "Неверное имя пользователя или пароль"
+        ),
+        'inactive': gettext_lazy("This account is inactive."),
+    }
+    password = forms.CharField(
+        label=gettext_lazy("Password"),
+        strip=False,
+        min_length=6,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password'}),
+    )
 
 
 class ChangeUserInfoForm(forms.ModelForm):

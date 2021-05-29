@@ -17,7 +17,7 @@ from django.contrib.auth import logout
 from django.contrib import messages
 
 from .models import AdvUser
-from .forms import ChangeUserInfoForm, RegisterUserForm
+from .forms import ChangeUserInfoForm, RegisterUserForm, LoginUserForm
 from .utilities import signer
 
 
@@ -48,6 +48,7 @@ def user_activate(request, sign):
 
 class MALoginView(LoginView):
     template_name = 'main/login.html'
+    authentication_form = LoginUserForm
 
 
 class MALogoutView(LoginRequiredMixin, LogoutView):

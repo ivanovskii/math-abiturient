@@ -1,20 +1,38 @@
-{% extends "layout/basic.html" %}
-
 {% load bootstrap5 %}
+{% load static %}
 
-{% block title %}Вход{% endblock %}
-
-{% block content %}
-    <h2>Вход</h2>
-    {% if user.is_authenticated %}
-        <р>Вы уже выполнили вход.</р>
-    {% else %}
-        <form method="post">
-        {% csrf_token %}
-        {% bootstrap_form form layout='horizontal' %}
-        <input type="hidden" name="next" value="{{ next }}">
-        {% buttons submit='Boйти' %}{% endbuttons %}
-        </form>
-        <a href="{% url 'password_reset' %}">Сброс пароля</a>
-    {% endif %}
-{% endblock %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Вход</title>
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+        <link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}">
+    </head>
+    <body>
+        <main>
+            <div class="auth-logo">
+                <a href="/">math-abiturient</a>
+            </div>
+            <div class="auth-header">
+                <h2>Авторизация</h2>
+            </div>
+            <div class="auth-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    <input type="hidden" name="next" value="{{ next }}">
+                    <input type="submit" value="Войти" class="btn btn-success btn-block">
+                    <div class="mt-4">
+                        <a href="{% url 'password_reset' %}">Сброс пароля</a>
+                    </div>
+                </form>
+            </div>
+            <div class="auth-footer">
+                Нет аккаунта? <a href="{% url 'register' %}">Зарегистрируйтесь!</a>
+            </div>
+        </main>
+    </body>
+</html>
