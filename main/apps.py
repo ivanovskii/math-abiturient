@@ -6,9 +6,9 @@ class MainConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'main'
 
-user_registered = Signal(providing_args=['instance'])
+user_joined = Signal(providing_args=['instance'])
 
-def user_registered_dispatcher(sender, **kwargs):
+def user_joined_dispatcher(sender, **kwargs):
     send_activation_notification(kwargs['instance'])
 
-user_registered.connect(user_registered_dispatcher)
+user_joined.connect(user_joined_dispatcher)

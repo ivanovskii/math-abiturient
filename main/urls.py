@@ -1,8 +1,8 @@
 from django.urls import path
 
 from .views import index, MALoginView, profile, MALogoutView, \
-    ChangeUserInfoView, MAPasswordChangeView, RegisterUserView, \
-    RegisterDoneView, user_activate, DeleteUserView, MAPasswordResetView, \
+    ChangeUserInfoView, MAPasswordChangeView, JoinUserView, \
+    JoinDoneView, user_activate, DeleteUserView, MAPasswordResetView, \
     MAPasswordResetDoneView, MAPasswordResetConfirmView, \
     MAPasswordResetCompleteView
 
@@ -15,12 +15,12 @@ urlpatterns = [
                                      name='profile_change'),
     path('accounts/password/change/', MAPasswordChangeView.as_view(),
                                       name='password_change'),
-    path('accounts/register/done/', RegisterDoneView.as_view(),
+    path('accounts/join/done/', JoinDoneView.as_view(),
                                    name='register_done'),
-    path('accounts/register/', RegisterUserView.as_view(),
-                                   name='register'),
-    path('accounts/register/activate/<str:sign>/', user_activate,
-                                   name='register_activate'),
+    path('accounts/join/', JoinUserView.as_view(),
+                                   name='join'),
+    path('accounts/join/activate/<str:sign>/', user_activate,
+                                   name='join_activate'),
     path('accounts/profile/delete', DeleteUserView.as_view(),
                                    name='profile_delete'),
     path('accounts/password/reset/done/', MAPasswordResetDoneView.as_view(),

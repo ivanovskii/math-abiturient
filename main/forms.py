@@ -1,6 +1,6 @@
 from django import forms
 from .models import AdvUser
-from .apps import user_registered
+from .apps import user_joined
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import AuthenticationForm
@@ -30,7 +30,7 @@ class ChangeUserInfoForm(forms.ModelForm):
         fields = ('username', 'email', 'first_name', 'last_name', 'image', 'biography')
 
 
-class RegisterUserForm(forms.ModelForm):
+class JoinUserForm(forms.ModelForm):
     email = forms.CharField(required=True, label='Адрес электронной почты')
     username = forms.CharField(required=True, min_length=6, label='Имя пользователя')
 
@@ -61,7 +61,7 @@ class RegisterUserForm(forms.ModelForm):
         user.is_activated = False
         if commit:
             user.save()
-        user_registered.send(RegisterUserForm, instance=user)
+        user_joined.send(JoinUserForm, instance=user)
         return user
 
     class Meta:

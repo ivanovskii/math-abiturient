@@ -12,12 +12,13 @@ from django.views.generic.edit import UpdateView, CreateView, \
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
+from django.views.generic.detail import DetailView
 from django.core.signing import BadSignature
 from django.contrib.auth import logout
 from django.contrib import messages
 
 from .models import AdvUser
-from .forms import ChangeUserInfoForm, RegisterUserForm, LoginUserForm
+from .forms import ChangeUserInfoForm, JoinUserForm, LoginUserForm
 from .utilities import signer
 
 
@@ -79,15 +80,15 @@ class MAPasswordChangeView(SuccessMessageMixin, LoginRequiredMixin,
     success_message = 'Пароль успешно изменен'
 
 
-class RegisterUserView(CreateView):
+class JoinUserView(CreateView):
     model = AdvUser
-    template_name = 'main/register_user.html'
-    form_class = RegisterUserForm
-    success_url = reverse_lazy('register_done')
+    template_name = 'main/join.html'
+    form_class = JoinUserForm
+    success_url = reverse_lazy('join_done')
 
 
-class RegisterDoneView(TemplateView):
-    template_name = 'main/register_done.html'
+class JoinDoneView(TemplateView):
+    template_name = 'main/join_done.html'
 
 
 class DeleteUserView(LoginRequiredMixin, DeleteView):
