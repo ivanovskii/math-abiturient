@@ -1,34 +1,60 @@
 {% load bootstrap5 %}
 {% load static %}
 
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title> {% block title %}Главная{% endblock %} · math-abiturient</title>
-        {% bootstrap_css %}
         <link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}">
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
     </head>
     <body>
-        <header class="navbar bg-navbar">
-            <nav class="container">
-                <a class="navbar-brand nav-ma-link" href="/">math-abiturient</a>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">math-abiturient</a>
                 {% if request.user.is_authenticated %}
-                    <div>
-                        <a class="btn btn-ma-login" href="{% url 'profile' %}">Мой профиль</a>
-                        <a class="btn btn-ma-login" href="{% url 'logout' %}">Выйти</a>
+                    <div class="flex-shrink-0 dropdown">
+                        {% if request.user.image %}
+                            <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="{{MEDIA_URL}}{{ request.user.image }}" alt="" class="rounded-circle" width="32" height="32">
+                            </a>
+                        {% else %}
+                            <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="{{MEDIA_URL}}default-profile.png" alt="" class="rounded-circle" width="32" height="32"/>
+                            </a>
+                        {% endif %}
+                        <ul class="dropdown-menu text-small shadow" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(-110px, 34px);" aria-labelledby="dropdownUser">
+                            <li><a class="dropdown-item" href="{% url 'profile' %}">Мой профиль</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}?next=/">Выйти</a></li>
+                        </ul>
                     </div>
                 {% else %}
-                    <div>
-                        <a class="btn btn-ma-login" href="{% url 'register' %}">Регистрация</a>
-                        <a class="btn btn-ma-login" href="{% url 'login' %}">Войти</a>
+                    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbar_id" aria-controls="navbar_id" aria-expanded="false">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    
+                    <div class="navbar-collapse collapse" id="navbar_id">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item">
+                                <a class="nav-link mx-2 text-light" href="{% url 'login' %}">Войти</a>
+                            </li>
+                            <li class="nav-item mx-2">
+                                <a class="btn btn-ma-login" href="{% url 'register' %}">Регистрация</a>
+                            </li>
+                        </ul>
                     </div>
                 {% endif %}
-            </nav>
-        </header>
+            </div>
+        </nav>
         <main>
-            <div class="container">
+            <div>
                 {% block content %}
                 {% endblock %}
             </div>

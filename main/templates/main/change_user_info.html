@@ -6,9 +6,9 @@
 
 {% block content %}
     <h2>Правка личных данных пользователя {{ user.username }}</h2>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {% bootstrap_form form layout='horizontal' %}
+        {% bootstrap_form form %}
         {% bootstrap_button "Сохранить" button_type="submit"%}
     </form>
 {% endblock %}

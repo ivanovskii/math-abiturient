@@ -52,7 +52,7 @@ class MALoginView(LoginView):
 
 
 class MALogoutView(LoginRequiredMixin, LogoutView):
-    template_name = 'main/logout.html'
+    template_name = 'main/index.html'
 
 
 class ChangeUserInfoView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):

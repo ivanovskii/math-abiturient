@@ -1,8 +1,9 @@
 # IDE files
 /.vscode
 
-# Migrations
+# Project files
 */migrations
+/media/users
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

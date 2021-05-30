@@ -17,7 +17,7 @@ class LoginUserForm(AuthenticationForm):
     password = forms.CharField(
         label=gettext_lazy("Password"),
         strip=False,
-        min_length=6,
+        min_length=8,
         widget=forms.PasswordInput(attrs={'autocomplete': 'current-password'}),
     )
 
@@ -27,16 +27,16 @@ class ChangeUserInfoForm(forms.ModelForm):
 
     class Meta:
         model = AdvUser
-        fields = ('username', 'email', 'first_name', 'last_name')
+        fields = ('username', 'email', 'first_name', 'last_name', 'image', 'biography')
 
 
 class RegisterUserForm(forms.ModelForm):
-    email = forms.EmailField(required=True, label='Адрес электронной почты')
-    password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput,
-        help_text=password_validation.password_validators_help_text_html())
-    password2 = forms.CharField(label='Пароль (повторно)',
-        widget=forms.PasswordInput,
-        help_text='Введите тот же самый пароль еще раз для проверки')
+    email = forms.CharField(required=True, label='Адрес электронной почты')
+    username = forms.CharField(required=True, min_length=6, label='Имя пользователя')
+
+    password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput())
+    password2 = forms.CharField(label='Повторите пароль',
+        widget=forms.PasswordInput)
 
     def clean_password1(self):
         password1 = self.cleaned_data['password1']
@@ -66,5 +66,4 @@ class RegisterUserForm(forms.ModelForm):
 
     class Meta:
         model = AdvUser
-        fields = ('username', 'email', 'password1', 'password2',
-                  'first_name', 'last_name')
+        fields = ('username', 'email', 'password1', 'password2')

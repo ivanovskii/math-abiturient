@@ -5,10 +5,16 @@
 {% block title %}Регистрация{% endblock %}
 
 {% block content %}
-    <h2>Регистрация нового пользователя</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {% bootstrap_form form layout='horizontal' %}
-        {% buttons submit='Зарегистрироваться' %}{% endbuttons %}
-    </form>
+    <div class="mt-5 p-3">
+        <div class="register-header">
+            <h2>Регистрация</h2>
+        </div>
+        <div class="register-body">
+            <form method="POST">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <input type="submit" value="Зарегистрироваться" class="btn btn-success btn-block mt-3">
+            </form>
+        </div>
+    </div>
 {% endblock %}
