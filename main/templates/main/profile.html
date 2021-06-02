@@ -3,15 +3,30 @@
 {% block title %}Профиль пользователя{% endblock %}
 
 {% block content %}
-    <h2>Профиль пользователя {{ user.username }} </h2>
-    {% if user.first_name and user.last_name %}
-        <p>Здравствуйте,
-            {{ user.first_name }} {{ user.last_name }}!
-        </p>
+<div class="container mt-5">
+
+    {# Фото пользователя #}
+    {% if object.image %}
+        <img src="{{ MEDIA_URL }}{{ object.image }}" alt="" class="rounded" style="object-fit: cover;" width="128" height="128"/>    
     {% else %}
-        <p>Здравствуйте!</p>
+        <img src="{{ MEDIA_URL }}default-profile.png" alt="" class="rounded" style="object-fit: cover;" width="128" height="128"/>
     {% endif %}
-    <a class="btn btn-ma-login" href="{% url 'profile_change' %}">Изменить личные данные</a>
-    <a class="btn btn-ma-login" href="{% url 'password_change' %}">Изменить пароль</a>
-    <a class="btn btn-ma-login" href="{% url 'profile_delete' %}">Удалить профиль</a>
+
+    {# Имя пользователя #}
+    {% if object.first_name and object.last_name %}
+        {{ object.first_name }} {{ object.last_name }}
+    {% else %}
+        {{ object.username }}
+    {% endif %}
+    
+    {# Настройка профиля #}
+    {% if user.username == object.username %}
+        <div>
+            <a class="btn btn-ma-login" href="{% url 'profile_change' user.username %}">Изменить личные данные</a>
+            <a class="btn btn-ma-login" href="{% url 'password_change' user.username %}">Изменить пароль</a>
+            <a class="btn btn-ma-login" href="{% url 'profile_delete' user.username %}">Удалить профиль</a>
+        </div>
+    {% endif %}
+
+</div>
 {% endblock %}

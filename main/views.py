@@ -26,9 +26,11 @@ def index(request):
     return render(request, 'main/index.html')
 
 
-@login_required
-def profile(request):
-    return render(request, 'main/profile.html')
+class UserDetailView(DetailView):
+    model = AdvUser
+    slug_field = "username"
+    slug_url_kwarg = "username"
+    template_name = "main/profile.html"
 
 
 def user_activate(request, sign):
@@ -51,6 +53,9 @@ class MALoginView(LoginView):
     template_name = 'main/login.html'
     authentication_form = LoginUserForm
 
+    def get_success_url(self):
+        return reverse_lazy('profile', args=[self.request.user.username])
+
 
 class MALogoutView(LoginRequiredMixin, LogoutView):
     template_name = 'main/index.html'
@@ -60,8 +65,10 @@ class ChangeUserInfoView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     model = AdvUser
     template_name = 'main/change_user_info.html'
     form_class = ChangeUserInfoForm
-    success_url = reverse_lazy('profile')
     success_message = 'Данные пользователя изменены'
+    
+    def get_success_url(self):
+        return reverse_lazy('profile', args=[self.request.user.username])
 
     def setup(self, request, *args, **kwargs):
         self.user_id = request.user.pk
@@ -76,8 +83,10 @@ class ChangeUserInfoView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
 class MAPasswordChangeView(SuccessMessageMixin, LoginRequiredMixin,
                                                 PasswordChangeView):
     template_name = 'main/password_change.html'
-    success_url = reverse_lazy('profile')
     success_message = 'Пароль успешно изменен'
+
+    def get_success_url(self):
+        return reverse_lazy('profile', args=[self.request.user.username])
 
 
 class JoinUserView(CreateView):

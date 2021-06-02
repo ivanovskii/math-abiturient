@@ -30,7 +30,7 @@
                             </a>
                         {% endif %}
                         <ul class="dropdown-menu text-small shadow" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(-110px, 34px);" aria-labelledby="dropdownUser">
-                            <li><a class="dropdown-item" href="{% url 'profile' %}">Мой профиль</a></li>
+                            <li><a class="dropdown-item" href="{% url 'profile' request.user.username %}">Мой профиль</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="{% url 'logout' %}?next=/">Выйти</a></li>
                         </ul>
