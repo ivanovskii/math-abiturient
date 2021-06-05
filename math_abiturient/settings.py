@@ -149,3 +149,47 @@ THUMBNAIL_ALIASES = {
 }
 
 THUMBNAIL_BASEDIR = 'thumbnails'
+
+BOOTSTRAP5 = {
+
+    # More info: https://django-bootstrap-v5.readthedocs.io/en/latest/settings.html
+    
+    "css_url": {
+        "url": "https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css",
+        "integrity": "sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x",
+        "crossorigin": "anonymous",
+    },
+
+    "javascript_url": {
+        "url": "https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js",
+        "integrity": "sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT",
+        "crossorigin": "anonymous",
+    },
+
+    "theme_url": None,
+
+    'javascript_in_head': False,
+
+    'horizontal_label_class': 'col-md-3',
+
+    'horizontal_field_class': 'col-md-9',
+
+    'set_placeholder': True,
+
+    'required_css_class': '',
+
+    'error_css_class': 'is-invalid',
+
+    'success_css_class': 'is-valid',
+
+    'formset_renderers':{
+        'default': 'bootstrap5.renderers.FormsetRenderer',
+    },
+    'form_renderers': {
+        'default': 'bootstrap5.renderers.FormRenderer',
+    },
+    'field_renderers': {
+        'default': 'bootstrap5.renderers.FieldRenderer',
+        'inline': 'bootstrap5.renderers.InlineFieldRenderer',
+    },
+}
