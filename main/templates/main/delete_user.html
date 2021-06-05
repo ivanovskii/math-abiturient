@@ -5,6 +5,7 @@
 {% block title %}Удаление пользователя{% endblock %}
 
 {% block content %}
+    {% include "layout/header.html" %}
     <h2>Удаление пользователя {{ object.username }}</h2>
     <form method="post">
         {% csrf_token %}

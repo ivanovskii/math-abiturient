@@ -1,39 +1,32 @@
+{% extends 'layout/basic.html' %}
+
 {% load bootstrap5 %}
 {% load static %}
 
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Вход</title>
-        <link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}">
-    </head>
-    <body>
-        <div class="p-3">
-            <div class="auth-logo">
-                <a href="/">math-abiturient</a>
-            </div>
-            <div class="auth-header">
-                <h2>Авторизация</h2>
-            </div>
-            <div class="auth-body">
-                <form method="post">
-                    {% csrf_token %}
-                    {% bootstrap_form form %}
-                    <input type="hidden" name="next" value="{{ next }}">
-                    <input type="submit" value="Войти" class="btn btn-success btn-block">
-                    <div class="mt-4">
-                        <a href="{% url 'password_reset' %}">Сброс пароля</a>
-                    </div>
-                </form>
-            </div>
-            <div class="auth-footer">
-                Нет аккаунта? <a href="{% url 'join' %}">Зарегистрируйтесь!</a>
-            </div>
+{% block content %}
+    <div class="p-3">
+        <div class="auth-logo">
+            <a href="/">math-abiturient</a>
         </div>
-    </body>
-</html>
+        <div class="auth-header">
+            <h2>Авторизация</h2>
+        </div>
+        <div class="auth-body">
+            <form method="post">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <input type="hidden" name="next" value="{{ next }}">
+                <input type="submit" value="Войти" class="btn btn-success btn-block">
+                <div class="mt-4">
+                    <a href="{% url 'password_reset' %}">Сброс пароля</a>
+                </div>
+            </form>
+        </div>
+        <div class="auth-footer">
+            Нет аккаунта? <a href="{% url 'join' %}">Зарегистрируйтесь!</a>
+        </div>
+    </div>
+{% endblock %}
