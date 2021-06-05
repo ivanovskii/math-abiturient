@@ -10,6 +10,6 @@
     <form method="post">
         {% csrf_token %}
         <p>Вы уверены, что хотите удалить свой профиль?</p>
-        {% bootstrap_button "Удалить" button_type="submit" %}
+        <input type="submit" value="Удалить" class="btn btn-danger">
     </form>
 {% endblock %}

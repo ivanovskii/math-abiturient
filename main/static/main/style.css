@@ -1,13 +1,9 @@
-/* Removes the bootstrap glow from any element */
-*:hover,
-*:focus,
-*:active
+/* Removes the bootstrap glow */
+input, button, textarea, select, a
 {
-  outline: none;
-  box-shadow: none !important;
-  -webkit-appearance: none;
+    outline: none;
+    box-shadow: none !important;
 }
-
 
 /* Navbar */
 .bg-navbar

@@ -19,13 +19,13 @@
     {% else %}
         {{ object.username }}
     {% endif %}
-    
+
     {# Настройка профиля #}
     {% if user.username == object.username %}
         <div>
-            <a class="btn btn-ma-login" href="{% url 'profile_change' user.username %}">Изменить личные данные</a>
-            <a class="btn btn-ma-login" href="{% url 'password_change' user.username %}">Изменить пароль</a>
-            <a class="btn btn-ma-login" href="{% url 'profile_delete' user.username %}">Удалить профиль</a>
+            <a class="btn btn-ma-login" href="{% url 'edit_profile' %}">Изменить личные данные</a>
+            <a class="btn btn-ma-login" href="{% url 'password_change' %}">Изменить пароль</a>
+            <a class="btn btn-ma-login" href="{% url 'profile_delete' %}">Удалить профиль</a>
         </div>
     {% endif %}
 
