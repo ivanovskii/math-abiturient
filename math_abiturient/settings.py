@@ -154,6 +154,10 @@ THUMBNAIL_BASEDIR = 'thumbnails'
 
 X_FRAME_OPTIONS = 'SAMEORIGIN' 
 
+MDEDITOR_IMAGE_FOLDER = 'editor'
+
+MDEDITOR_IMAGE_FOLDER_PATH = os.path.join(MEDIA_ROOT, MDEDITOR_IMAGE_FOLDER)
+
 MDEDITOR_CONFIGS = {
     'default': {
         'width': '100%',
@@ -170,7 +174,7 @@ MDEDITOR_CONFIGS = {
                     "||", "preview", "watch", "fullscreen"],
         'upload_image_formats': ["jpg", "JPG", "jpeg", "JPEG", "gif", "GIF",
                                  "png", "PNG", "bmp", "BMP", "webp", "WEBP"],
-        'image_folder': 'editor',
+        'image_folder': MDEDITOR_IMAGE_FOLDER,
         'theme': 'default',  # dark / default
         'preview_theme': 'default',  # dark / default
         'editor_theme': 'default',  # pastel-on-dark / default
