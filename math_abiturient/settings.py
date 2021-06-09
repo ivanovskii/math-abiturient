@@ -42,8 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main.apps.MainConfig',
     'bootstrap5',
-    'django_cleanup',
+    'mdeditor',
     'easy_thumbnails',
+    'django_cleanup',
 ]
 
 MIDDLEWARE = [
@@ -125,6 +126,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -192,4 +194,40 @@ BOOTSTRAP5 = {
         'default': 'bootstrap5.renderers.FieldRenderer',
         'inline': 'bootstrap5.renderers.InlineFieldRenderer',
     },
+}
+
+X_FRAME_OPTIONS = 'SAMEORIGIN' 
+
+MDEDITOR_CONFIGS = {
+    'default': {
+        'width': '100%',
+        'height': 500,
+        'toolbar': ["undo", "redo", "|",
+                    "bold", "del", "italic", "quote", "ucwords", "uppercase",
+                    "lowercase", "|",
+                    "h1", "h2", "h3", "h5", "h6", "|",
+                    "list-ul", "list-ol", "hr", "|",
+                    "link", "reference-link", "image", "code",
+                    "preformatted-text", "code-block", "table", "datetime",
+                    "emoji", "html-entities", "pagebreak", "goto-line", "|",
+                    "help", "info",
+                    "||", "preview", "watch", "fullscreen"],
+        'upload_image_formats': ["jpg", "JPG", "jpeg", "JPEG", "gif", "GIF",
+                                 "png", "PNG", "bmp", "BMP", "webp", "WEBP"],
+        'image_folder': 'editor',
+        'theme': 'default',  # dark / default
+        'preview_theme': 'default',  # dark / default
+        'editor_theme': 'default',  # pastel-on-dark / default
+        'toolbar_autofixed': True,
+        'search_replace': True,
+        'emoji': True,
+        'tex': True,
+        'flow_chart': True,
+        'sequence': True,
+        'language': 'en',  # zh / en / es
+        'watch': True,  # Live preview
+        'lineWrapping': False,  # lineWrapping
+        'lineNumbers': True,  # lineNumbers,
+        'placeholder': ''
+    }
 }

@@ -13,8 +13,8 @@ from django.core.signing import BadSignature
 from django.contrib.auth import logout
 from django.contrib import messages
 
-from .models import AdvUser
-from .forms import EditProfileForm, JoinForm, LoginForm
+from .models import AdvUser, Task
+from .forms import EditProfileForm, JoinForm, LoginForm, CreateTaskForm
 from .utilities import signer
 
 
@@ -147,3 +147,22 @@ class UserDetailView(DetailView):
     slug_field = "username"
     slug_url_kwarg = "username"
     template_name = "main/profile.html"
+
+#### Задачи
+
+class CreateTaskView(LoginRequiredMixin, CreateView):
+    form_class = CreateTaskForm
+    template_name = 'main/new_task.html'
+    login_url = 'login'
+
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        return super(CreateTaskView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('show_task', args=[self.object.id])
+
+
+class ShowTaskView(DetailView):
+    model = Task
+    template_name = 'main/show_task.html'

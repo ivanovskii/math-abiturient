@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
+    path('mdeditor/', include('mdeditor.urls'))
 ]
 
 # Не кэшировать статику браузером в дебаге

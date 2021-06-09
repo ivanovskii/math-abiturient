@@ -4,11 +4,14 @@ from .views import index, UserLoginView, UserDetailView, UserLogoutView, \
     EditProfileView, PasswordChangeView, JoinView, \
     JoinDoneView, user_activate, DeleteUserView, PasswordResetView, \
     PasswordResetDoneView, PasswordResetConfirmView, \
-    PasswordResetCompleteView
+    PasswordResetCompleteView, CreateTaskView, ShowTaskView
 
 
 urlpatterns = [
     path('', index, name='index'),
+    
+    path('new/', CreateTaskView.as_view(), name='new_task'),
+    path('show/<int:pk>', ShowTaskView.as_view(), name='show_task'),
 
     # Авторизация и выход
     path('login/', UserLoginView.as_view(), name='login'),

@@ -4,6 +4,8 @@
 # Project files
 */migrations
 /media/users
+/media/editor
+/static
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

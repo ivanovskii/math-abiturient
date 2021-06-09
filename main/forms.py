@@ -1,5 +1,5 @@
 from django import forms
-from .models import AdvUser
+from .models import AdvUser, Task
 from .apps import user_joined
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
@@ -74,3 +74,10 @@ class EditProfileForm(forms.ModelForm):
         model = AdvUser
         fields = ('username', 'email', 'first_name',
                   'last_name', 'image', 'biography')
+
+
+class CreateTaskForm(forms.ModelForm):
+
+    class Meta:
+        model = Task
+        fields = ('title', 'content')
