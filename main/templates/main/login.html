@@ -1,6 +1,12 @@
-{% extends 'layout/basic.html' %}
+{% extends 'layout/base.html' %}
 
 {% load bootstrap4 %}
+
+{% block static %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='true' %}
+    {{ block.super }}
+{% endblock %}
 
 {% block title %}Вход{% endblock %}
 

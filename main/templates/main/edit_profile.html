@@ -1,11 +1,10 @@
-{% extends "layout/basic.html" %}
+{% extends "layout/base_header.html" %}
 
 {% load bootstrap4 %}
 
 {% block title %}Правка личных данных{% endblock %}
 
 {% block content %}
-    {% include "layout/header.html" %}
     <h2>Правка личных данных пользователя {{ user.username }}</h2>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}

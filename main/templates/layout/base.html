@@ -1,8 +1,4 @@
 {% load static %}
-{% load bootstrap5 %}
-
-{% bootstrap_css %}
-{% bootstrap_javascript %}
 
 <!DOCTYPE html>
 <html>
@@ -10,9 +6,13 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title> {% block title %}Главная{% endblock %} · math-abiturient</title>
-        <link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}">
+        {% block static %}
+            <link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}">
+        {% endblock %}
     </head>
     <body>
+        {% block header %}
+        {% endblock %}
         <main>
             {% block content %}
             {% endblock %}
