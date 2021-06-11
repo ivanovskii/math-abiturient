@@ -66,9 +66,7 @@ class JoinForm(forms.ModelForm):
 
 
 class EditProfileForm(forms.ModelForm):
-    email = forms.EmailField(
-        required=True, label='Адрес электронной почты'
-    )
+    email = forms.EmailField(required=True, label='Адрес электронной почты')
 
     class Meta:
         model = AdvUser

@@ -1,11 +1,15 @@
 from django.urls import path
 
-from .views import index, UserLoginView, UserDetailView, UserLogoutView, \
-    EditProfileView, PasswordChangeView, JoinView, \
-    JoinDoneView, user_activate, DeleteUserView, PasswordResetView, \
-    PasswordResetDoneView, PasswordResetConfirmView, \
-    PasswordResetCompleteView, CreateTaskView, ShowTaskView
-
+from .views import (
+    index,
+    CreateTaskView, ReadTaskView, UpdateTaskView, DeleteTaskView,
+    UserLoginView, UserLogoutView,
+    JoinView, JoinDoneView, user_activate,
+    UpdateUserView, PasswordChangeView, DeleteUserView,
+    PasswordResetView, PasswordResetDoneView, \
+    PasswordResetConfirmView, PasswordResetCompleteView,
+    UserDetailView,
+)
 
 urlpatterns = [
     path('', index, name='index'),
@@ -16,23 +20,23 @@ urlpatterns = [
     path('task/<int:pk>/update/', UpdateTaskView.as_view(), name='update_task'),
     path('task/<int:pk>/delete/', DeleteTaskView.as_view(), name='delete_task'),
 
-    # Авторизация и выход
+    # Login and Logout 
     path('login/', UserLoginView.as_view(), name='login'),
     path('logout/', UserLogoutView.as_view(), name='logout'),
 
-    # Регистрация нового пользователя
+    # New User Registration
     path('join/', JoinView.as_view(), name='join'),
     path('join/done/', JoinDoneView.as_view(), name='join_done'),
     path('join/activate/<str:sign>/', user_activate, name='join_activate'),
 
-    # Настройка пользователя
-    path('edit/', EditProfileView.as_view(), name='edit_profile'),
-    path('password/change/', PasswordChangeView.as_view(),
-                                            name='password_change'),
-    path('delete', DeleteUserView.as_view(),
-                                   name='profile_delete'),
+    # Account settings
+    path('account/update/', UpdateUserView.as_view(), name='edit_profile'),
+    path('account/password/update/', PasswordChangeView.as_view(),
+                                     name='password_change'),
+    path('account/delete/', DeleteUserView.as_view(),
+                            name='profile_delete'),
     
-    # Cброс пароля
+    # Password reset using email
     path('password/reset/', PasswordResetView.as_view(),
                             name='password_reset'),
     path('password/reset/done/', PasswordResetDoneView.as_view(),

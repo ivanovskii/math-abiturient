@@ -69,7 +69,7 @@ def user_activate(request, sign):
 
 ##### Настройки пользователя
 
-class EditProfileView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+class UpdateUserView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     model = AdvUser
     template_name = 'main/edit_profile.html'
     form_class = EditProfileForm
@@ -120,7 +120,7 @@ class DeleteUserView(LoginRequiredMixin, DeleteView):
         return get_object_or_404(queryset, pk=self.user_id)
 
 
-##### Сброс пароля
+##### Password reset
 
 class PasswordResetView(PasswordResetView):
     template_name = 'main/password_reset.html'
@@ -142,14 +142,15 @@ class PasswordResetCompleteView(PasswordResetCompleteView):
     template_name = 'main/password_complete.html'
 
 
-# Просмотр профиля
+# Profile view
 class UserDetailView(DetailView):
     model = AdvUser
     slug_field = "username"
     slug_url_kwarg = "username"
     template_name = "main/profile.html"
 
-#### Задачи
+
+#### Tasks
 
 class CreateTaskView(LoginRequiredMixin, CreateView):
     form_class = CreateTaskForm
@@ -157,6 +158,7 @@ class CreateTaskView(LoginRequiredMixin, CreateView):
     login_url = 'login'
 
     def form_valid(self, form):
+        """ Creator of task is request.user """
         form.instance.creator = self.request.user
         return super(CreateTaskView, self).form_valid(form)
 
