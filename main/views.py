@@ -1,3 +1,4 @@
+from django.http.response import Http404
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.views import LoginView, LogoutView, \
     PasswordChangeView, PasswordResetView, PasswordResetDoneView, \
@@ -152,7 +153,7 @@ class UserDetailView(DetailView):
 
 class CreateTaskView(LoginRequiredMixin, CreateView):
     form_class = CreateTaskForm
-    template_name = 'main/new_task.html'
+    template_name = 'task/create.html'
     login_url = 'login'
 
     def form_valid(self, form):
@@ -160,9 +161,42 @@ class CreateTaskView(LoginRequiredMixin, CreateView):
         return super(CreateTaskView, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('show_task', args=[self.object.id])
+        return reverse_lazy('profile', args=[self.request.user.username])
 
 
-class ShowTaskView(DetailView):
+class ReadTaskView(DetailView):
     model = Task
-    template_name = 'main/show_task.html'
+    template_name = 'task/read.html'
+
+
+class UpdateTaskView(LoginRequiredMixin, UpdateView):
+    model = Task
+    template_name = 'task/update.html'
+    form_class = CreateTaskForm
+    login_url = 'login'
+    
+    def get_success_url(self):
+        return reverse_lazy('profile', args=[self.request.user.username])
+
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user """
+        obj = super(UpdateTaskView, self).get_object()
+        if not obj.creator == self.request.user:
+            raise Http404
+        return obj
+
+
+class DeleteTaskView(LoginRequiredMixin, DeleteView):
+    model = Task
+    template_name = 'task/delete.html'
+    login_url = 'login'
+
+    def get_success_url(self):
+        return reverse_lazy('profile', args=[self.request.user.username])
+
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user """
+        obj = super(DeleteTaskView, self).get_object()
+        if not obj.creator == self.request.user:
+            raise Http404
+        return obj

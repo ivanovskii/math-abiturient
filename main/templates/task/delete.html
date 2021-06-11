@@ -1,0 +1,14 @@
+{% extends "layout/base_header.html" %}
+
+{% load bootstrap4 %}
+
+{% block title %}Удаление задачи{% endblock %}
+
+{% block content %}
+    <h2>Удаление задачи {{ object.title }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <p>Вы уверены, что хотите удалить эту задачу?</p>
+        <input type="submit" value="Удалить" class="btn btn-danger">
+    </form>
+{% endblock %}

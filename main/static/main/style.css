@@ -28,6 +28,22 @@ input, button, textarea, select, a
     border-color: #ffe484;
 }
 
+.btn-profile
+{
+    font-weight:600;
+    color:rgb(255, 255, 255);
+    background-color: rgb(0, 115, 187);
+    border-color:rgb(0, 115, 187);
+}
+
+.btn-profile:hover,
+.btn-profile:active
+{
+    color: #ffffff;
+    background-color: rgb(0, 81, 131);
+    border-color: rgb(0, 81, 131);
+}
+
 .btn-block
 {
     width: 100%;

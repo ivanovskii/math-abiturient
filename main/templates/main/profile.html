@@ -3,31 +3,115 @@
 {% block title %}Профиль пользователя{% endblock %}
 
 {% block content %}
-    {% include "layout/header.html" %}
-<div class="container mt-5">
+    <div class="container mb-4 mt-md-4 p-4 border rounded" style="background-color: white">
+        <div class="row">
 
-    {# Фото пользователя #}
-    {% if object.image %}
-        <img src="{{ MEDIA_URL }}{{ object.image }}" alt="" class="rounded" style="object-fit: cover;" width="128" height="128"/>    
-    {% else %}
-        <img src="{{ MEDIA_URL }}default-profile.png" alt="" class="rounded" style="object-fit: cover;" width="128" height="128"/>
-    {% endif %}
+            <div class="col-md-auto">
+                <div class="row-md-auto">
+                    {# Фото пользователя #}
+                    <div class="text-center">
+                        {% if object.image %}
+                            <img src="{{ MEDIA_URL }}{{ object.image }}" alt="" class="rounded-circle" style="object-fit: cover;" width="210" height="210"/>    
+                        {% else %}
+                            <img src="{{ MEDIA_URL }}default-profile.png" alt="" class="rounded-circle" style="object-fit: cover;" width="210" height="210"/>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row-md-auto">
+                    <div class="mt-2 mt-md-4 text-center text-muted font-weight-light">
+                        Рейтинг: в разработке
+                    </div>
+                </div>
+            </div>
+                
+            <div class="col text-center text-md-left">
+                {# Имя пользователя #}
+                <div class="border-bottom">
+                    <h2>
+                        {% if object.first_name and object.last_name %}
+                            {{ object.first_name }} {{ object.last_name }}
+                        {% else %}
+                            {{ object.username }}
+                        {% endif %}
+                    </h2>
+                </div>
 
-    {# Имя пользователя #}
-    {% if object.first_name and object.last_name %}
-        {{ object.first_name }} {{ object.last_name }}
-    {% else %}
-        {{ object.username }}
-    {% endif %}
-
-    {# Настройка профиля #}
-    {% if user.username == object.username %}
-        <div>
-            <a class="btn btn-ma-login" href="{% url 'edit_profile' %}">Изменить личные данные</a>
-            <a class="btn btn-ma-login" href="{% url 'password_change' %}">Изменить пароль</a>
-            <a class="btn btn-ma-login" href="{% url 'profile_delete' %}">Удалить профиль</a>
+                {# Биография пользователя #}
+                <div class="mt-3">
+                    <p class="font-weight-light text-justify">
+                        {% if object.biography %}
+                            {{ object.biography|linebreaksbr }}
+                        {% else %}
+                            Пользователь ещё ничего о себе не написал
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
         </div>
-    {% endif %}
 
-</div>
+        <!-- Вкладки -->
+        <ul class="nav nav-tabs mt-4 justify-content-center" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="tasks-tab" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="true">Задачи</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="favorites-tab" data-toggle="tab" href="#favorites" role="tab" aria-controls="favorites" aria-selected="false">Избранное</a>
+            </li>
+            {# Настройка профиля #}
+            {% if user == object %}
+                <li class="nav-item">
+                    <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Настройка</a>
+                </li>
+            {% endif %}
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
+                
+                {# Кнопка добавить задачу #}
+                {% if user == object %}
+                    <a class="btn btn-profile btn-block mt-4 font-weight-normal" href="{% url 'create_task' %}">
+                        Добавить задачу
+                    </a>
+                {% endif %}
+
+                {# Задачи пользователя #}
+                {% if object.task_set.all %}
+                    {% for obj in object.task_set.all %}
+                    <div class="mt-4 p-3 border rounded">
+                        <a href="{% url 'read_task' obj.pk %}">
+                            {{ obj.title }}
+                        </a>
+                        {% if user == obj.creator %}
+                            <a href="{% url 'update_task' obj.pk %}" class="btn btn-primary">
+                                Редактировать
+                            </a>
+                            <a href="{% url 'delete_task' obj.pk %}" class="btn btn-danger">
+                                Удалить
+                            </a>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                {% elif user != object %}
+                    <div class="font-weight-light">
+                        Пользователь не создал задач
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="tab-pane fade" id="favorites" role="tabpanel" aria-labelledby="favorites-tab">
+                <div class="font-weight-light">
+                    В разработке
+                </div>
+            </div>
+
+            {# Настройка профиля #}
+            {% if user == object %}
+            <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                <a class="btn btn-profile btn-block mt-4 font-weight-normal" href="{% url 'edit_profile' %}">Изменить профиль</a>
+                <a class="btn btn-profile btn-block mt-4 font-weight-normal" href="{% url 'password_change' %}">Изменить пароль</a>
+                <a class="btn btn-danger btn-block mt-4 font-weight-normal" href="{% url 'profile_delete' %}">Удалить профиль</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

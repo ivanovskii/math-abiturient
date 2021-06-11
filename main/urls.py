@@ -10,8 +10,11 @@ from .views import index, UserLoginView, UserDetailView, UserLogoutView, \
 urlpatterns = [
     path('', index, name='index'),
     
-    path('new/', CreateTaskView.as_view(), name='new_task'),
-    path('show/<int:pk>', ShowTaskView.as_view(), name='show_task'),
+    # Task CRUD
+    path('task/create/', CreateTaskView.as_view(), name='create_task'),
+    path('task/<int:pk>/', ReadTaskView.as_view(), name='read_task'),
+    path('task/<int:pk>/update/', UpdateTaskView.as_view(), name='update_task'),
+    path('task/<int:pk>/delete/', DeleteTaskView.as_view(), name='delete_task'),
 
     # Авторизация и выход
     path('login/', UserLoginView.as_view(), name='login'),
