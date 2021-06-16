@@ -6,10 +6,11 @@ from .views import (
     UserLoginView, UserLogoutView,
     JoinView, JoinDoneView, user_activate,
     UpdateUserView, PasswordChangeView, DeleteUserView,
-    PasswordResetView, PasswordResetDoneView, \
+    PasswordResetView, PasswordResetDoneView,
     PasswordResetConfirmView, PasswordResetCompleteView,
     UserDetailView,
 )
+
 
 urlpatterns = [
     path('', index, name='index'),

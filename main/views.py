@@ -1,21 +1,29 @@
-from django.http.response import Http404
-from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.views import LoginView, LogoutView, \
-    PasswordChangeView, PasswordResetView, PasswordResetDoneView, \
-    PasswordResetConfirmView, PasswordResetCompleteView
+import json
+from datetime import datetime
+
+from django.core.signing import BadSignature
+from django.core.exceptions import PermissionDenied
+from django.contrib import messages, auth
+from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.edit import UpdateView, CreateView, \
-    DeleteView
+from django.contrib.auth.views import (
+    LoginView, LogoutView, PasswordChangeView,
+    PasswordResetView, PasswordResetDoneView,
+    PasswordResetConfirmView, PasswordResetCompleteView,
+)
 from django.contrib.messages.views import SuccessMessageMixin
-from django.urls import reverse_lazy
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy, reverse
+from django.views import View
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
-from django.core.signing import BadSignature
-from django.contrib.auth import logout
-from django.contrib import messages
+from django.views.generic.edit import (
+    CreateView, UpdateView, DeleteView,
+)
 
-from .models import AdvUser, Task
-from .forms import EditProfileForm, JoinForm, LoginForm, CreateTaskForm
+from .models import AdvUser, Task, FavoriteTask
+from .forms import LoginForm, JoinForm, UpdateUserForm, CreateTaskForm
 from .utilities import signer
 
 
@@ -36,9 +44,10 @@ class UserLoginView(LoginView):
 
 class UserLogoutView(LoginRequiredMixin, LogoutView):
     template_name = 'main/index.html'
+    login_url = 'login'
 
 
-##### Регистрация пользователя
+##### New User Registration
 
 class JoinView(CreateView):
     model = AdvUser
@@ -67,17 +76,17 @@ def user_activate(request, sign):
     return render(request, template)
 
 
-##### Настройки пользователя
+##### Account settings
 
 class UpdateUserView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     model = AdvUser
     template_name = 'main/edit_profile.html'
-    form_class = EditProfileForm
+    form_class = UpdateUserForm
     login_url = 'login'
     success_message = 'Данные пользователя изменены'
     
     def get_success_url(self):
-        return reverse_lazy('profile', args=[self.request.user.username])
+        return reverse('profile', args=[self.request.user.username])
 
     def setup(self, request, *args, **kwargs):
         self.user_id = request.user.pk
@@ -87,16 +96,6 @@ class UpdateUserView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
         if not queryset:
             queryset = self.get_queryset()
         return get_object_or_404(queryset, pk=self.user_id)
-
-
-class PasswordChangeView(SuccessMessageMixin, LoginRequiredMixin,
-                                              PasswordChangeView):
-    template_name = 'main/password_change.html'
-    success_message = 'Пароль успешно изменен'
-    login_url = 'login'
-
-    def get_success_url(self):
-        return reverse_lazy('profile', args=[self.request.user.username])
 
 
 class DeleteUserView(LoginRequiredMixin, DeleteView):
@@ -118,6 +117,16 @@ class DeleteUserView(LoginRequiredMixin, DeleteView):
         if not queryset:
             queryset = self.get_queryset()
         return get_object_or_404(queryset, pk=self.user_id)
+
+
+class PasswordChangeView(SuccessMessageMixin, LoginRequiredMixin,
+                                              PasswordChangeView):
+    template_name = 'main/password_change.html'
+    success_message = 'Пароль успешно изменен'
+    login_url = 'login'
+
+    def get_success_url(self):
+        return reverse('profile', args=[self.request.user.username])
 
 
 ##### Password reset
@@ -163,7 +172,7 @@ class CreateTaskView(LoginRequiredMixin, CreateView):
         return super(CreateTaskView, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('profile', args=[self.request.user.username])
+        return reverse('profile', args=[self.request.user.username])
 
 
 class ReadTaskView(DetailView):
@@ -178,13 +187,13 @@ class UpdateTaskView(LoginRequiredMixin, UpdateView):
     login_url = 'login'
     
     def get_success_url(self):
-        return reverse_lazy('profile', args=[self.request.user.username])
+        return reverse('profile', args=[self.request.user.username])
 
     def get_object(self, queryset=None):
         """ Hook to ensure object is owned by request.user """
         obj = super(UpdateTaskView, self).get_object()
         if not obj.creator == self.request.user:
-            raise Http404
+            raise PermissionDenied
         return obj
 
 

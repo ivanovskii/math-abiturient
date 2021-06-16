@@ -65,7 +65,7 @@ class JoinForm(forms.ModelForm):
         fields = ('username', 'email', 'password1', 'password2')
 
 
-class EditProfileForm(forms.ModelForm):
+class UpdateUserForm(forms.ModelForm):
     email = forms.EmailField(required=True, label='Адрес электронной почты')
 
     class Meta:
@@ -78,4 +78,4 @@ class CreateTaskForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = ('title', 'content')
+        fields = ('title', 'description', 'content')
