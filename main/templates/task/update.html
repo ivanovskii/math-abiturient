@@ -2,11 +2,17 @@
 
 {% load bootstrap4 %}
 
+
 {% block content %}
+    <h2 class="pb-3 mb-4 border-bottom">Изменение задачи 
+        <a href="{% url 'read_task' object.pk %}">
+            {{ object.title }}
+        </a>
+    </h2>
     <form method="post" >
         {% csrf_token %}
         {{ form.media }}
-        {{ form.as_p }}
-        <input type="submit" class="btn btn-success" value="Cохранить изменения">
+        {% bootstrap_form form %}
+        <input type="submit" class="btn btn-success btn-block" value="Cохранить изменения">
     </form>
 {% endblock %}

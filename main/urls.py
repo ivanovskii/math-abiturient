@@ -1,8 +1,9 @@
 from django.urls import path
-
+from .models import FavoriteTask
 from .views import (
-    index,
+    IndexView, SearchView,
     CreateTaskView, ReadTaskView, UpdateTaskView, DeleteTaskView,
+    PublishTaskView, FavoriteTaskView,
     UserLoginView, UserLogoutView,
     JoinView, JoinDoneView, user_activate,
     UpdateUserView, PasswordChangeView, DeleteUserView,
@@ -13,13 +14,16 @@ from .views import (
 
 
 urlpatterns = [
-    path('', index, name='index'),
-    
-    # Task CRUD
+    path('', IndexView.as_view(), name='index'),
+    path('search/', SearchView.as_view(), name='search'),
+
+    # Tasks
     path('task/create/', CreateTaskView.as_view(), name='create_task'),
     path('task/<int:pk>/', ReadTaskView.as_view(), name='read_task'),
     path('task/<int:pk>/update/', UpdateTaskView.as_view(), name='update_task'),
     path('task/<int:pk>/delete/', DeleteTaskView.as_view(), name='delete_task'),
+    path('task/<int:pk>/publish/', PublishTaskView.as_view(), name='publish_task'),
+    path('task/<int:pk>/favorite/', FavoriteTaskView.as_view(model=FavoriteTask), name='task_favorite'),
 
     # Login and Logout 
     path('login/', UserLoginView.as_view(), name='login'),

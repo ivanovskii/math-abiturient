@@ -2,7 +2,7 @@
 
 {% load bootstrap4 %}
 
-{% block static %}
+{% block style %}
     {% bootstrap_css %}
     {% bootstrap_javascript jquery='true' %}
     {{ block.super }}
@@ -10,7 +10,7 @@
 
 {% block title %}Вход{% endblock %}
 
-{% block content %}
+{% block container %}
     <div class="p-3">
         <div class="auth-logo">
             <a href="/">math-abiturient</a>
@@ -21,7 +21,7 @@
         <div class="auth-body">
             <form method="post">
                 {% csrf_token %}
-                {% bootstrap_form form %}
+                {% bootstrap_form form  %}
                 <input type="hidden" name="next" value="{{ next }}">
                 <input type="submit" value="Войти" class="btn btn-success btn-block">
                 <div class="mt-4">

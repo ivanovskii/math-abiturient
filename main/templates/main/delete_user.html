@@ -5,10 +5,14 @@
 {% block title %}Удаление пользователя{% endblock %}
 
 {% block content %}
-    <h2>Удаление пользователя {{ object.username }}</h2>
+    <h2 class="pb-3 mb-4 border-bottom">Удаление пользователя
+        <a href="{% url 'profile' user.username %}">
+            {{ object.username }}
+        </a>
+    </h2>
     <form method="post">
         {% csrf_token %}
-        <p>Вы уверены, что хотите удалить свой профиль?</p>
-        <input type="submit" value="Удалить" class="btn btn-danger">
+        <p>Вы уверены, что хотите удалить свой профиль? Это действие невозможно отменить.</p>
+        <input type="submit" value="Удалить" class="btn btn-danger btn-block mt-4">
     </form>
 {% endblock %}

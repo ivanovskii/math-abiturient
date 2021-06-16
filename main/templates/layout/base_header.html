@@ -1,60 +1,69 @@
 {% extends 'layout/base.html' %}
 
+
 {% load bootstrap4 %}
 
-{% block static %}
+
+{% block style %}
     {% bootstrap_css %}
     {% bootstrap_javascript jquery='true' %}
     {{ block.super }}
 {% endblock %}
 
-{% block header %}
-    <nav class="navbar navbar-expand navbar-dark bg-navbar">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">math-abiturient</a>
-            {% if request.user.is_authenticated %}
-                <div class="navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item dropdown">
-                            {% if request.user.image %}
-                                <a href="#" style="padding: 0;" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="{{MEDIA_URL}}{{ request.user.image }}" alt="" style="object-fit: cover;" class="rounded-circle" width="32" height="32">
-                                </a>
-                            {% else %}
-                                <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="{{MEDIA_URL}}default-profile.png" alt="" style="object-fit: cover;" class="rounded-circle" width="32" height="32">
-                                </a>
-                            {% endif %}
-                            
-                            <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{% url 'profile' request.user.username %}">Мой профиль</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'logout' %}?next=/">Выйти</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            {% else %}
-            <ul class="navbar-nav ml-auto">
-                <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbar_id" aria-controls="navbar_id" aria-expanded="false">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                
-                <div class="navbar-collapse collapse" id="navbar_id">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link mx-2 text-light" href="{% url 'login' %}">Войти</a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a class="btn btn-ma-login" href="{% url 'join' %}">Регистрация</a>
-                        </li>
-                    </ul>
-                </div>
-            </ul>
-            {% endif %}
-        </div>
-    </nav>
-{% endblock %}
 
-{% block content %}
+{% block header %}
+    <header>
+        <nav class="navbar navbar-expand navbar-dark bg-navbar" style="height: 55px;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">math-abiturient</a>
+                {% if user.is_authenticated %}
+                    <div class="navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown">
+                                {% if user.image %}
+                                    <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="{{MEDIA_URL}}{{ request.user.image }}" alt="" style="object-fit: cover;" class="rounded-circle" width="32" height="32">
+                                    </a>
+                                {% else %}
+                                    <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="{{MEDIA_URL}}default-profile.png" alt="" style="object-fit: cover;" class="rounded-circle" width="32" height="32">
+                                    </a>
+                                {% endif %}
+                                
+                                <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{% url 'profile' request.user.username %}">Мой профиль</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'logout' %}?next=/">Выйти</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <ul class="navbar-nav ml-auto">
+                        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbar_id" aria-controls="navbar_id" aria-expanded="false">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        
+                        <div class="navbar-collapse collapse" id="navbar_id">
+                            <ul class="navbar-nav ms-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link mx-2 text-light" href="{% url 'login' %}">Войти</a>
+                                </li>
+                                <li class="nav-item mx-2">
+                                    <a class="btn btn-ma-login" href="{% url 'join' %}">Регистрация</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </ul>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+{% endblock header %}
+
+
+{% block container %}
+    <main class="container shadow my-md-4 py-4 px-md-4 border rounded bg-white">
+        {% block content %}{% endblock %}
+    </main>
 {% endblock %}

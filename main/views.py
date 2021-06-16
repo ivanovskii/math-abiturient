@@ -26,12 +26,38 @@ from .models import AdvUser, Task, FavoriteTask
 from .forms import LoginForm, JoinForm, UpdateUserForm, CreateTaskForm
 from .utilities import signer
 
+class IndexView(TemplateView):
+    template_name = 'main/index.html'
 
-def index(request):
-    return render(request, 'main/index.html')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tasks = Task.objects.filter(is_published=True)
+        context['tasks'] = tasks
+        if self.request.user.is_authenticated:
+            context['user_favorites'] = Task.objects.filter(
+                favoritetask__user=self.request.user)
+        return context
 
 
-##### Авторизация и выход
+class SearchView(View):
+    template_name = 'main/search.html'
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+
+        question = request.GET.get('q')
+        if question is not None:
+            search_tasks = Task.objects.filter(title__contains=question, is_published=True)
+
+            context['task_list'] = search_tasks
+            if self.request.user.is_authenticated:
+                context['user_favorites'] = Task.objects.filter(
+                    favoritetask__user=self.request.user)
+
+        return render(request, template_name=self.template_name, context=context)
+
+
+##### Login and logout
 
 class UserLoginView(LoginView):
     template_name = 'main/login.html'
@@ -158,6 +184,15 @@ class UserDetailView(DetailView):
     slug_url_kwarg = "username"
     template_name = "main/profile.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            context['user_favorites'] = Task.objects.filter(
+                favoritetask__user=self.request.user)
+        context['object_favorites'] = Task.objects.filter(
+            favoritetask__user=context['object'])
+        return context
+
 
 #### Tasks
 
@@ -169,6 +204,9 @@ class CreateTaskView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         """ Creator of task is request.user """
         form.instance.creator = self.request.user
+        if self.request.POST.get("publish"):
+            form.instance.published_at = datetime.now()
+            form.instance.is_published = True
         return super(CreateTaskView, self).form_valid(form)
 
     def get_success_url(self):
@@ -203,11 +241,52 @@ class DeleteTaskView(LoginRequiredMixin, DeleteView):
     login_url = 'login'
 
     def get_success_url(self):
-        return reverse_lazy('profile', args=[self.request.user.username])
+        return reverse('profile', args=[self.request.user.username])
 
     def get_object(self, queryset=None):
         """ Hook to ensure object is owned by request.user """
         obj = super(DeleteTaskView, self).get_object()
         if not obj.creator == self.request.user:
-            raise Http404
+            raise PermissionDenied
         return obj
+
+
+class PublishTaskView(LoginRequiredMixin, View):
+    model = Task
+    login_url = "login"
+
+    def get(self, request, pk):
+        task = get_object_or_404(Task, id=pk)
+        if request.user == task.creator:
+            if task.is_published:
+                task.published_at = None
+                task.is_published = False
+                FavoriteTask.objects.filter(obj__pk=task.pk).delete() 
+            else:
+                task.published_at = datetime.now()
+                task.is_published = True
+            task.save()
+            return HttpResponseRedirect(reverse('profile', args=[request.user.username]))
+        else:
+            raise PermissionDenied
+
+
+class FavoriteTaskView(View):
+    model = None
+    login_url = "login"
+
+    def post(self, request, pk):
+        user = auth.get_user(request)
+        if user.is_anonymous:
+            raise PermissionDenied
+        favorite, created = self.model.objects.get_or_create(user=user, obj_id=pk)
+        if not created:
+            favorite.delete()
+ 
+        return HttpResponse(
+            json.dumps({
+                "result": created,
+                # "count": self.model.objects.filter(obj_id=pk).count()
+            }),
+            content_type="application/json"
+        )

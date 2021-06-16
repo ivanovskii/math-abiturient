@@ -1,28 +1,20 @@
 {% extends "layout/base_header.html" %}
 
 {% load static %}
+{% load bootstrap4 %}
 
 {% block style %}
     {{ block.super }}
+    <!-- icons -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 {% endblock %}
 
 {% block content %}
     <div>
-        <h2 class="text-center mb-5">Последние опубликованные задачи</h2>
+        <h2 class="text-center">Поиск</h2>
     </div>
-    <form action="{% url 'search' %}" class="navbar-form navbar-left mx-4" method="get">
-        <div class="input-group">
-            <input id="search" name="q" type="text" class="form-control" placeholder="Поиск">
-            <span class="input-group-btn input-group-append">
-                <button type="submit" class="btn btn-secondary btn-icon">
-                    <i class="fab fa-sistrix"></i>
-                </button>
-            </span>
-        </div>
-    </form>
-    <div class="mx-4 mt-5 font-weight-light">
-        {% for obj in tasks %}
+    <div class="mx-4 pb-4 font-weight-light">
+        {% for obj in task_list %}
             <div class="mt-4 p-3 shadow border rounded">
                 <h4 class="border-bottom pb-2">
                     <a href="{% url 'read_task' obj.pk %}">{{ obj.title }}</a>
@@ -42,7 +34,7 @@
                 {% endif %}
             </div>
         {% empty %}
-            <div class="mt-4 no-content">Упс... Задач нет на сайте</div>
+            <div class="mt-4 no-content">К сожалению, ничего не найдено</div>
         {% endfor %}
     </div>
 {% endblock %}

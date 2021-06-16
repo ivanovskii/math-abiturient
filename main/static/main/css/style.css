@@ -30,7 +30,7 @@ input, button, textarea, select, a
 
 .btn-profile
 {
-    font-weight:600;
+    font-weight:400;
     color:rgb(255, 255, 255);
     background-color: rgb(0, 115, 187);
     border-color:rgb(0, 115, 187);
@@ -42,11 +42,6 @@ input, button, textarea, select, a
     color: #ffffff;
     background-color: rgb(0, 81, 131);
     border-color: rgb(0, 81, 131);
-}
-
-.btn-block
-{
-    width: 100%;
 }
 
 /* Forms */
@@ -77,7 +72,7 @@ input, button, textarea, select, a
     border-radius: 10px;
     padding: 20px 25px;
     border: 1px solid rgba(0, 0, 0, 0.055);
-    background-color: rgba(0, 26, 255, 0.041);
+    background-color: rgba(0, 115, 187, 0.075);
 }
 
 
@@ -103,3 +98,34 @@ input, button, textarea, select, a
     text-align: center;
     margin-bottom: 30px;
 }
+
+/* icons */
+span.fas.fa-star.active
+{
+    -webkit-text-stroke: 0.2px rgb(71, 117, 119);
+    color:aqua;
+}
+
+span.fas.fa-star
+{
+    padding-top: 15px;
+}
+
+.btn-icon {
+    min-width: 44px;
+}
+
+.tab-pane.fade.min-height
+{
+    min-height: 170px;
+}
+
+div.mt-4.no-content
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 170px;
+}
+
+

@@ -2,11 +2,16 @@
 
 {% load bootstrap4 %}
 
+{% block title %}Создание задачи{% endblock %}
+
 {% block content %}
-    <form method="post" >
+    <h2 class="pb-3 mb-4 border-bottom">Создание задачи</h2>
+    <form method="post">
         {% csrf_token %}
         {{ form.media }}
-        {{ form.as_p }}
-        <input type="submit" class="btn btn-success" value="Опубликовать">
+        {% bootstrap_form form %}
+        <input type="submit" name="publish"  class="btn btn-success btn-block" value="Опубликовать">
+        <input type="submit" name="save_draft"  class="btn btn-secondary btn-block" value="Сохранить в черновик">
+        </div>
     </form>
 {% endblock %}

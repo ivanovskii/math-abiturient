@@ -6,16 +6,13 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title> {% block title %}Главная{% endblock %} · math-abiturient</title>
-        {% block static %}
-            <link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}">
+        {% block style %}
+            <link rel="stylesheet" type="text/css" href="{% static 'main/css/style.css' %}">
         {% endblock %}
     </head>
-    <body style="background: rgb(245, 245, 245)">
-        {% block header %}
-        {% endblock %}
-        <main>
-            {% block content %}
-            {% endblock %}
-        </main>
+    <body>
+        {% block header %}{% endblock %}
+        {% block container %}{% endblock %}
+        {% block js %}{% endblock %}
     </body>
 </html>

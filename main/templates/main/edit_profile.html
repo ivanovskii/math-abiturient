@@ -5,10 +5,14 @@
 {% block title %}Правка личных данных{% endblock %}
 
 {% block content %}
-    <h2>Правка личных данных пользователя {{ user.username }}</h2>
+    <h2 class="pb-3 mb-4 border-bottom">Правка личных данных пользователя
+        <a href="{% url 'profile' user.username %}">
+            {{ user.username }}
+        </a>
+    </h2>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% bootstrap_form form %}
-        <input type="submit" value="Сохранить" class="btn btn-success">
+        <input type="submit" value="Сохранить" class="btn btn-success btn-block">
     </form>
 {% endblock %}
