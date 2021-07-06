@@ -128,4 +128,6 @@ div.mt-4.no-content
     height: 170px;
 }
 
-
+.editormd-preview-container, span.editormd-tex, .editormd-html-preview, span.editormd-tex {
+    margin: 0px !important;
+}
